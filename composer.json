@@ -1,0 +1,7 @@
+{
+    "name": "bip-org/local_captcha",
+    "type": "project",
+    "require": {
+        "gregwar/captcha": "dev-master"
+    }
+}
