@@ -87,6 +87,8 @@ class captcha_form_element extends \MoodleQuickForm_static {
                 'name' => $this->getName(),
                 // only use the existing value, if it was correct
                 'value' => $this->_value,
+                // mark as required for screeen readers
+                'attributes' => 'required="" aria-label="Captcha"',
             ],
             'captcha_url' => new \moodle_url('/local/captcha/captcha.php', ['rand' => time()]),
             'error' => $hasError,
@@ -165,7 +167,8 @@ class captcha_form_element extends \MoodleQuickForm_static {
 
         $builder = new \Gregwar\Captcha\CaptchaBuilder($SESSION->captcha_phrase);
         // testPhrase() also fuzzy-compares 0 and o and 1 and l (lowercase L)
-        $_isValid = $builder->testPhrase($elementValue);
+        // lowercase, because the captcha is lowercase and so we can do an case-insensitive compare
+        $_isValid = $builder->testPhrase(strtolower($elementValue));
 
         if (!$_isValid) {
             if ($elementValue) {

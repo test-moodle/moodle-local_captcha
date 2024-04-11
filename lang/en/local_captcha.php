@@ -22,6 +22,7 @@
  */
 
 $string['pluginname'] = 'Captcha';
-
 $string['captcha'] = 'Captcha';
 $string['captcha:incorrect'] = 'Captcha was not valid!';
+$string['reload_captcha'] = 'Captcha erneut laden';
+$string['play_captcha_audio'] = 'Audio abspielen';

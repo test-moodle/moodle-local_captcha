@@ -22,24 +22,113 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/inc.php');
+require_once(__DIR__ . '/inc.php');
 
 use Gregwar\Captcha\CaptchaBuilder;
+use Gregwar\Captcha\PhraseBuilder;
+
+$phraseBuilder = new PhraseBuilder(6, 'abcdefghijklmnpqrstuvwxyz123456789');
 
 $newCode = false;
 if (!empty($SESSION->captcha_phrase) && $SESSION->captcha_time >= microtime(true) - 60 * 10 && !@$_REQUEST['regenerate_captcha']) {
     // same captcha for X minutes
-    $builder = new CaptchaBuilder($SESSION->captcha_phrase);
-    $builder->build(150, 40, null, $SESSION->captcha_fingerprint);
+    $builder = new CaptchaBuilder($SESSION->captcha_phrase, $phraseBuilder);
+    $builder->build(150, 60, null, $SESSION->captcha_fingerprint);
 } else {
     $newCode = true;
-    $builder = new CaptchaBuilder();
-    $builder->build(150, 40);
+    $builder = new CaptchaBuilder(null, $phraseBuilder);
+    $builder->build(150, 60);
 
     $SESSION->captcha_phrase = $builder->getPhrase();
     $SESSION->captcha_time = microtime(true);
     $SESSION->captcha_fingerprint = $builder->getFingerprint();
 }
 
-header('Content-type: image/jpeg');
-$builder->output();
+if (optional_param('audio', false, PARAM_BOOL)) {
+    $fs = get_file_storage();
+
+    $language = current_language();
+    // strip off the country code
+    $language = preg_replace('![_-].*!', '', $language);
+
+    // inside the upload area
+    $files = $fs->get_area_files(\context_system::instance()->id, 'local_captcha', 'audio_files', 0, 'itemid', false);
+    $audio_files = [];
+    foreach ($files as $file) {
+        $filepath = trim($file->get_filepath(), '/');
+        if ($filepath) {
+            $id = str_replace('/', '_', $filepath);
+        } else {
+            $id = str_replace('.mp3', '', $file->get_filename());
+        }
+
+        // in case the language / character was written uppercase
+        $id = strtolower($id);
+
+        if (!isset($audio_files[$id])) {
+            $audio_files[$id] = [];
+        }
+        $audio_files[$id][] = $file;
+    }
+
+    // inside the audio_files_directory
+    $audio_files_directory = get_config('local_captcha', 'audio_files_directory');
+    if ($audio_files_directory) {
+        // with language and char directory
+        $files = glob($audio_files_directory . '/*/?/*.mp3');
+        foreach ($files as $file) {
+            $filepath = dirname(str_replace($audio_files_directory, '', $file));
+            $filepath = trim($filepath, '/\\');
+            $id = str_replace(['/', '\\'], '_', $filepath);
+
+            if (!isset($audio_files[$id])) {
+                $audio_files[$id] = [];
+            }
+            $audio_files[$id][] = $file;
+        }
+
+        // without any directory, language + char is in the file
+        $files = glob($audio_files_directory . '/?.mp3');
+        foreach ($files as $file) {
+            $id = preg_replace('!\.mp3$!i', '', basename($file));
+
+            if (!isset($audio_files[$id])) {
+                $audio_files[$id] = [];
+            }
+            $audio_files[$id][] = $file;
+        }
+    }
+
+    header('Content-type: audio/mp3');
+
+    $phrase = strtolower($SESSION->captcha_phrase);
+    for ($i = 0; $i < strlen($phrase); $i++) {
+        $char = $phrase[$i];
+
+        if (isset($audio_files[$language . '_' . $char])) {
+            $files = $audio_files[$language . '_' . $char];
+        } elseif (isset($audio_files[$char])) {
+            // Alternative: ohne language code zum testen
+            $files = $audio_files[$char];
+        } elseif (isset($audio_files['en' . '_' . $char])) {
+            // Fallback: english
+            $files = $audio_files['en' . '_' . $char];
+        } else {
+            // should not happen, skip the character...
+            continue;
+        }
+
+        // randomly get a character from all variations
+        $file = $files[random_int(0, count($files) - 1)];
+
+        // you can just concatenate the single audio files and it will work!
+        if (is_string($file)) {
+            echo file_get_contents($file);
+        } else {
+            echo $file->get_content();
+        }
+    }
+} else {
+    header('Content-type: image/jpeg');
+    $builder->output();
+}

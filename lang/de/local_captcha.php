@@ -24,3 +24,5 @@
 $string['pluginname'] = 'Captcha';
 $string['captcha'] = 'Captcha';
 $string['captcha:incorrect'] = 'Captcha war leider nicht korrekt!';
+$string['reload_captcha'] = 'Captcha erneut laden';
+$string['play_captcha_audio'] = 'Audio abspielen';
