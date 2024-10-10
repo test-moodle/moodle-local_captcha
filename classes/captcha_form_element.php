@@ -16,7 +16,7 @@
 
 /**
  * @package    local_captcha
- * @copyright  2022 Austrian Federal Ministry of Education
+ * @copyright  2024 Austrian Federal Ministry of Education
  * @author     GTN solutions
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -82,8 +82,22 @@ class captcha_form_element extends \MoodleQuickForm_static {
             $hasError = !empty($this->form->_errors[$this->getName()]);
         }
 
+        // check if there are audiofiles to show the audio play button
+        $fs = get_file_storage();
+        $files = $fs->get_area_files(\context_system::instance()->id, 'local_captcha', 'audio_files', 0, 'itemid', false);
+        if (!$files) {
+            $audio_files_directory = get_config('local_captcha', 'audio_files_directory');
+            if ($audio_files_directory) {
+                // with language and char directory
+                $files = glob($audio_files_directory . '/*/?/*.mp3');
+            }
+        }
+
+        $with_audio = !!$files;
+
         $params = [
             'element' => [
+                'id' => $this->getAttribute('id'),
                 'name' => $this->getName(),
                 // only use the existing value, if it was correct
                 'value' => $this->_value,
@@ -91,6 +105,7 @@ class captcha_form_element extends \MoodleQuickForm_static {
                 'attributes' => 'required="" aria-label="Captcha"',
             ],
             'captcha_url' => new \moodle_url('/local/captcha/captcha.php', ['rand' => time()]),
+            'with_audio' => $with_audio,
             'error' => $hasError,
         ];
 

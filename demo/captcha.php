@@ -17,7 +17,7 @@
 
 /**
  * @package    local_captcha
- * @copyright  2023 Austrian Federal Ministry of Education
+ * @copyright  2024 Austrian Federal Ministry of Education
  * @author     GTN solutions
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

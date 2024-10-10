@@ -21,11 +21,18 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Captcha';
+namespace local_captcha\privacy;
 
-$string['privacy:metadata'] = 'Es werden in diesem Plugin keine personenbezogenen Daten gespeichert.';
+defined('MOODLE_INTERNAL') || die;
 
-$string['captcha'] = 'Captcha';
-$string['captcha:incorrect'] = 'Captcha war leider nicht korrekt!';
-$string['reload_captcha'] = 'Captcha erneut laden';
-$string['play_captcha_audio'] = 'Audio abspielen';
+class provider implements \core_privacy\local\metadata\null_provider {
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason(): string {
+        return 'privacy:metadata';
+    }
+}
