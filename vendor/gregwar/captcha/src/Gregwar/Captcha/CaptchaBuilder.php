@@ -11,8 +11,7 @@ use \Exception;
  * @author Gregwar <g.passault@gmail.com>
  * @author Jeremy Livingston <jeremy.j.livingston@gmail.com>
  */
-class CaptchaBuilder implements CaptchaBuilderInterface
-{
+class CaptchaBuilder implements CaptchaBuilderInterface {
     /**
      * @var array
      */
@@ -109,8 +108,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * The image contents
      */
-    public function getContents()
-    {
+    public function getContents() {
         return $this->contents;
     }
 
@@ -121,8 +119,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
      *
      * @return CaptchaBuilder
      */
-    public function setInterpolation($interpolate = true)
-    {
+    public function setInterpolation($interpolate = true) {
         $this->interpolation = $interpolate;
 
         return $this;
@@ -133,8 +130,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
      */
     public $tempDir = 'temp/';
 
-    public function __construct($phrase = null, PhraseBuilderInterface $builder = null)
-    {
+    public function __construct($phrase = null, PhraseBuilderInterface $builder = null) {
         if ($builder === null) {
             $this->builder = new PhraseBuilder;
         } else {
@@ -147,44 +143,38 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Setting the phrase
      */
-    public function setPhrase($phrase)
-    {
-        $this->phrase = (string) $phrase;
+    public function setPhrase($phrase) {
+        $this->phrase = (string)$phrase;
     }
 
     /**
      * Enables/disable distortion
      */
-    public function setDistortion($distortion)
-    {
-        $this->distortion = (bool) $distortion;
+    public function setDistortion($distortion) {
+        $this->distortion = (bool)$distortion;
 
         return $this;
     }
 
-    public function setMaxBehindLines($maxBehindLines)
-    {
+    public function setMaxBehindLines($maxBehindLines) {
         $this->maxBehindLines = $maxBehindLines;
 
         return $this;
     }
 
-    public function setMaxFrontLines($maxFrontLines)
-    {
+    public function setMaxFrontLines($maxFrontLines) {
         $this->maxFrontLines = $maxFrontLines;
 
         return $this;
     }
 
-    public function setMaxAngle($maxAngle)
-    {
+    public function setMaxAngle($maxAngle) {
         $this->maxAngle = $maxAngle;
 
         return $this;
     }
 
-    public function setMaxOffset($maxOffset)
-    {
+    public function setMaxOffset($maxOffset) {
         $this->maxOffset = $maxOffset;
 
         return $this;
@@ -193,32 +183,28 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Gets the captcha phrase
      */
-    public function getPhrase()
-    {
+    public function getPhrase() {
         return $this->phrase;
     }
 
     /**
      * Returns true if the given phrase is good
      */
-    public function testPhrase($phrase)
-    {
+    public function testPhrase($phrase) {
         return ($this->builder->niceize($phrase) == $this->builder->niceize($this->getPhrase()));
     }
 
     /**
      * Instantiation
      */
-    public static function create($phrase = null)
-    {
+    public static function create($phrase = null) {
         return new self($phrase);
     }
 
     /**
      * Sets the text color to use
      */
-    public function setTextColor($r, $g, $b)
-    {
+    public function setTextColor($r, $g, $b) {
         $this->textColor = array($r, $g, $b);
 
         return $this;
@@ -227,15 +213,13 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Sets the background color to use
      */
-    public function setBackgroundColor($r, $g, $b)
-    {
+    public function setBackgroundColor($r, $g, $b) {
         $this->backgroundColor = array($r, $g, $b);
 
         return $this;
     }
 
-    public function setLineColor($r, $g, $b)
-    {
+    public function setLineColor($r, $g, $b) {
         $this->lineColor = array($r, $g, $b);
 
         return $this;
@@ -245,10 +229,10 @@ class CaptchaBuilder implements CaptchaBuilderInterface
      * Sets the ignoreAllEffects value
      *
      * @param bool $ignoreAllEffects
+     *
      * @return CaptchaBuilder
      */
-    public function setIgnoreAllEffects($ignoreAllEffects)
-    {
+    public function setIgnoreAllEffects($ignoreAllEffects) {
         $this->ignoreAllEffects = $ignoreAllEffects;
 
         return $this;
@@ -257,8 +241,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Sets the list of background images to use (one image is randomly selected)
      */
-    public function setBackgroundImages(array $backgroundImages)
-    {
+    public function setBackgroundImages(array $backgroundImages) {
         $this->backgroundImages = $backgroundImages;
 
         return $this;
@@ -267,8 +250,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Draw lines over the image
      */
-    protected function drawLine($image, $width, $height, $tcol = null)
-    {
+    protected function drawLine($image, $width, $height, $tcol = null) {
         if ($this->lineColor === null) {
             $red = $this->rand(100, 255);
             $green = $this->rand(100, 255);
@@ -284,15 +266,15 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         }
 
         if ($this->rand(0, 1)) { // Horizontal
-            $Xa   = $this->rand(0, $width/2);
-            $Ya   = $this->rand(0, $height);
-            $Xb   = $this->rand($width/2, $width);
-            $Yb   = $this->rand(0, $height);
+            $Xa = $this->rand(0, $width / 2);
+            $Ya = $this->rand(0, $height);
+            $Xb = $this->rand($width / 2, $width);
+            $Yb = $this->rand(0, $height);
         } else { // Vertical
-            $Xa   = $this->rand(0, $width);
-            $Ya   = $this->rand(0, $height/2);
-            $Xb   = $this->rand(0, $width);
-            $Yb   = $this->rand($height/2, $height);
+            $Xa = $this->rand(0, $width);
+            $Ya = $this->rand(0, $height / 2);
+            $Xb = $this->rand(0, $width);
+            $Yb = $this->rand($height / 2, $height);
         }
         imagesetthickness($image, $this->rand(1, 3));
         imageline($image, $Xa, $Ya, $Xb, $Yb, $tcol);
@@ -301,8 +283,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Apply some post effects
      */
-    protected function postEffect($image)
-    {
+    protected function postEffect($image) {
         if (!function_exists('imagefilter')) {
             return;
         }
@@ -333,20 +314,19 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Writes the phrase on the image
      */
-    protected function writePhrase($image, $phrase, $font, $width, $height)
-    {
+    protected function writePhrase($image, $phrase, $font, $width, $height) {
         $length = mb_strlen($phrase);
         if ($length === 0) {
             return \imagecolorallocate($image, 0, 0, 0);
         }
 
         // Gets the text size and start position
-        $size = (int) round($width / $length) - $this->rand(0, 3) - 1;
+        $size = (int)round($width / $length) - $this->rand(0, 3) - 1;
         $box = \imagettfbbox($size, 0, $font, $phrase);
         $textWidth = $box[2] - $box[0];
         $textHeight = $box[1] - $box[7];
-        $x = (int) round(($width - $textWidth) / 2);
-        $y = (int) round(($height - $textHeight) / 2) + $size;
+        $x = (int)round(($width - $textWidth) / 2);
+        $y = (int)round(($height - $textHeight) / 2) + $size;
 
         if (!$this->textColor) {
             $textColor = array($this->rand(0, 150), $this->rand(0, 150), $this->rand(0, 150));
@@ -356,7 +336,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         $col = \imagecolorallocate($image, $textColor[0], $textColor[1], $textColor[2]);
 
         // Write the letters one by one, with random angle
-        for ($i=0; $i<$length; $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $symbol = mb_substr($phrase, $i, 1);
             $box = \imagettfbbox($size, 0, $font, $symbol);
             $w = $box[2] - $box[0];
@@ -372,8 +352,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Try to read the code against an OCR
      */
-    public function isOCRReadable()
-    {
+    public function isOCRReadable() {
         if (!is_dir($this->tempDir)) {
             @mkdir($this->tempDir, 0755, true);
         }
@@ -394,8 +373,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Builds while the code is readable against an OCR
      */
-    public function buildAgainstOCR($width = 150, $height = 40, $font = null, $fingerprint = null)
-    {
+    public function buildAgainstOCR($width = 150, $height = 40, $font = null, $fingerprint = null) {
         do {
             $this->build($width, $height, $font, $fingerprint);
         } while ($this->isOCRReadable());
@@ -404,8 +382,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Generate the image
      */
-    public function build($width = 150, $height = 40, $font = null, $fingerprint = null)
-    {
+    public function build($width = 150, $height = 40, $font = null, $fingerprint = null) {
         if (null !== $fingerprint) {
             $this->fingerprint = $fingerprint;
             $this->useFingerprint = true;
@@ -415,12 +392,12 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         }
 
         if ($font === null) {
-            $font = __DIR__ . '/Font/captcha'.$this->rand(0, 5).'.ttf';
+            $font = __DIR__ . '/Font/captcha' . $this->rand(0, 5) . '.ttf';
         }
 
         if (empty($this->backgroundImages)) {
             // if background images list is not set, use a color fill as a background
-            $image   = imagecreatetruecolor($width, $height);
+            $image = imagecreatetruecolor($width, $height);
             if ($this->backgroundColor == null) {
                 $bg = imagecolorallocate($image, $this->rand(200, 255), $this->rand(200, 255), $this->rand(200, 255));
             } else {
@@ -430,7 +407,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
             imagefill($image, 0, 0, $bg);
         } else {
             // use a random background image
-            $randomBackgroundImage = $this->backgroundImages[rand(0, count($this->backgroundImages)-1)];
+            $randomBackgroundImage = $this->backgroundImages[rand(0, count($this->backgroundImages) - 1)];
 
             $imageType = $this->validateBackgroundImage($randomBackgroundImage);
 
@@ -440,7 +417,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         // Apply effects
         if (!$this->ignoreAllEffects) {
             $square = $width * $height;
-            $effects = $this->rand($square/3000, $square/2000);
+            $effects = $this->rand($square / 3000, $square / 2000);
 
             // set the maximum number of lines to draw in front of the text
             if ($this->maxBehindLines != null && $this->maxBehindLines > 0) {
@@ -460,7 +437,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         // Apply effects
         if (!$this->ignoreAllEffects) {
             $square = $width * $height;
-            $effects = $this->rand($square/3000, $square/2000);
+            $effects = $this->rand($square / 3000, $square / 2000);
 
             // set the maximum number of lines to draw in front of the text
             if ($this->maxFrontLines != null && $this->maxFrontLines > 0) {
@@ -492,13 +469,12 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Distorts the image
      */
-    public function distort($image, $width, $height, $bg)
-    {
+    public function distort($image, $width, $height, $bg) {
         $contents = imagecreatetruecolor($width, $height);
-        $X          = $this->rand(0, $width);
-        $Y          = $this->rand(0, $height);
-        $phase      = $this->rand(0, 10);
-        $scale      = 1.1 + $this->rand(0, 10000) / 30000;
+        $X = $this->rand(0, $width);
+        $Y = $this->rand(0, $height);
+        $phase = $this->rand(0, 10);
+        $scale = 1.1 + $this->rand(0, 10000) / 30000;
         for ($x = 0; $x < $width; $x++) {
             for ($y = 0; $y < $height; $y++) {
                 $Vx = $x - $X;
@@ -507,8 +483,8 @@ class CaptchaBuilder implements CaptchaBuilderInterface
 
                 if ($Vn != 0) {
                     $Vn2 = $Vn + 4 * sin($Vn / 30);
-                    $nX  = $X + ($Vx * $Vn2 / $Vn);
-                    $nY  = $Y + ($Vy * $Vn2 / $Vn);
+                    $nX = $X + ($Vx * $Vn2 / $Vn);
+                    $nY = $Y + ($Vy * $Vn2 / $Vn);
                 } else {
                     $nX = $X;
                     $nY = $Y;
@@ -542,24 +518,21 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Saves the Captcha to a jpeg file
      */
-    public function save($filename, $quality = 90)
-    {
+    public function save($filename, $quality = 90) {
         imagejpeg($this->contents, $filename, $quality);
     }
 
     /**
      * Gets the image GD
      */
-    public function getGd()
-    {
+    public function getGd() {
         return $this->contents;
     }
 
     /**
      * Gets the image contents
      */
-    public function get($quality = 90)
-    {
+    public function get($quality = 90) {
         ob_start();
         $this->output($quality);
 
@@ -569,24 +542,21 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     /**
      * Gets the HTML inline base64
      */
-    public function inline($quality = 90)
-    {
+    public function inline($quality = 90) {
         return 'data:image/jpeg;base64,' . base64_encode($this->get($quality));
     }
 
     /**
      * Outputs the image
      */
-    public function output($quality = 90)
-    {
+    public function output($quality = 90) {
         imagejpeg($this->contents, null, $quality);
     }
 
     /**
      * @return array
      */
-    public function getFingerprint()
-    {
+    public function getFingerprint() {
         return $this->fingerprint;
     }
 
@@ -594,8 +564,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
      * Returns a random number or the next number in the
      * fingerprint
      */
-    protected function rand($min, $max)
-    {
+    protected function rand($min, $max) {
         if (!is_array($this->fingerprint)) {
             $this->fingerprint = array();
         }
@@ -621,8 +590,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
      *
      * @return int
      */
-    protected function interpolate($x, $y, $nw, $ne, $sw, $se)
-    {
+    protected function interpolate($x, $y, $nw, $ne, $sw, $se) {
         list($r0, $g0, $b0) = $this->getRGB($nw);
         list($r1, $g1, $b1) = $this->getRGB($ne);
         list($r2, $g2, $b2) = $this->getRGB($sw);
@@ -633,15 +601,15 @@ class CaptchaBuilder implements CaptchaBuilderInterface
 
         $m0 = $cx * $r0 + $x * $r1;
         $m1 = $cx * $r2 + $x * $r3;
-        $r  = (int) ($cy * $m0 + $y * $m1);
+        $r = (int)($cy * $m0 + $y * $m1);
 
         $m0 = $cx * $g0 + $x * $g1;
         $m1 = $cx * $g2 + $x * $g3;
-        $g  = (int) ($cy * $m0 + $y * $m1);
+        $g = (int)($cy * $m0 + $y * $m1);
 
         $m0 = $cx * $b0 + $x * $b1;
         $m1 = $cx * $b2 + $x * $b3;
-        $b  = (int) ($cy * $m0 + $y * $m1);
+        $b = (int)($cy * $m0 + $y * $m1);
 
         return ($r << 16) | ($g << 8) | $b;
     }
@@ -653,8 +621,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
      *
      * @return int
      */
-    protected function getCol($image, $x, $y, $background)
-    {
+    protected function getCol($image, $x, $y, $background) {
         $L = imagesx($image);
         $H = imagesy($image);
         if ($x < 0 || $x >= $L || $y < 0 || $y >= $H) {
@@ -669,12 +636,11 @@ class CaptchaBuilder implements CaptchaBuilderInterface
      *
      * @return array
      */
-    protected function getRGB($col)
-    {
+    protected function getRGB($col) {
         return array(
-            (int) ($col >> 16) & 0xff,
-            (int) ($col >> 8) & 0xff,
-            (int) ($col) & 0xff,
+            (int)($col >> 16) & 0xff,
+            (int)($col >> 8) & 0xff,
+            (int)($col) & 0xff,
         );
     }
 
@@ -682,15 +648,15 @@ class CaptchaBuilder implements CaptchaBuilderInterface
      * Validate the background image path. Return the image type if valid
      *
      * @param string $backgroundImage
+     *
      * @return string
      * @throws Exception
      */
-    protected function validateBackgroundImage($backgroundImage)
-    {
+    protected function validateBackgroundImage($backgroundImage) {
         // check if file exists
         if (!file_exists($backgroundImage)) {
             $backgroundImageExploded = explode('/', $backgroundImage);
-            $imageFileName = count($backgroundImageExploded) > 1? $backgroundImageExploded[count($backgroundImageExploded)-1] : $backgroundImage;
+            $imageFileName = count($backgroundImageExploded) > 1 ? $backgroundImageExploded[count($backgroundImageExploded) - 1] : $backgroundImage;
 
             throw new Exception('Invalid background image: ' . $imageFileName);
         }
@@ -712,11 +678,11 @@ class CaptchaBuilder implements CaptchaBuilderInterface
      *
      * @param string $backgroundImage
      * @param string $imageType
+     *
      * @return resource
      * @throws Exception
      */
-    protected function createBackgroundImageFromType($backgroundImage, $imageType)
-    {
+    protected function createBackgroundImageFromType($backgroundImage, $imageType) {
         switch ($imageType) {
             case 'image/jpeg':
                 $image = imagecreatefromjpeg($backgroundImage);

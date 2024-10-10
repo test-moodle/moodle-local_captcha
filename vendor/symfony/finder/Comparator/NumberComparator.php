@@ -30,17 +30,15 @@ namespace Symfony\Component\Finder\Comparator;
  * @copyright 2004-2005 Fabien Potencier <fabien@symfony.com>
  * @copyright 2002 Richard Clamp <richardc@unixbeard.net>
  *
- * @see http://physics.nist.gov/cuu/Units/binary.html
+ * @see       http://physics.nist.gov/cuu/Units/binary.html
  */
-class NumberComparator extends Comparator
-{
+class NumberComparator extends Comparator {
     /**
      * @param string|null $test A comparison string or null
      *
      * @throws \InvalidArgumentException If the test is not understood
      */
-    public function __construct(?string $test)
-    {
+    public function __construct(?string $test) {
         if (null === $test || !preg_match('#^\s*(==|!=|[<>]=?)?\s*([0-9\.]+)\s*([kmg]i?)?\s*$#i', $test, $matches)) {
             throw new \InvalidArgumentException(sprintf('Don\'t understand "%s" as a number test.', $test ?? 'null'));
         }

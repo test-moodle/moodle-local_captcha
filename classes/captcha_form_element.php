@@ -42,22 +42,22 @@ class captcha_form_element extends \MoodleQuickForm_static {
     /**
      * @var bool|null bool: value is valid, null: not yet validated
      */
-    protected bool|null $_isValid = null;
+protected bool|null $_isValid = null;
     protected $_form = null;
-    protected string $_value = '';
+protected string $_value = '';
 
     /**
      * @var bool|mixed should the captcha be invalidated automatically, or by by the caller after the $form->get_data()
      */
-    protected bool $_setCaptchaUsed = true;
+protected bool $_setCaptchaUsed = true;
 
     /**
      * constructor
      *
-     * @param string $elementName (optional) name of the captcha element
+     * @param string $elementName  (optional) name of the captcha element
      * @param string $elementLabel (optional) label for captcha element
-     * @param mixed $options (optional) Either a typical HTML attribute string
-     *              or an associative array
+     * @param mixed $options       (optional) Either a typical HTML attribute string
+     *                             or an associative array
      */
     public function __construct($elementName = null, $elementLabel = null, $options = null) {
         if (!$elementName) {
@@ -123,9 +123,10 @@ class captcha_form_element extends \MoodleQuickForm_static {
      * Adds necessary rules to the element and checks that coorenct instance of gradingform_instance
      * is passed in attributes
      *
-     * @param string $event Name of event
-     * @param mixed $arg event arguments
+     * @param string $event  Name of event
+     * @param mixed $arg     event arguments
      * @param object $caller calling object
+     *
      * @return bool
      * @throws moodle_exception
      */
@@ -155,7 +156,7 @@ class captcha_form_element extends \MoodleQuickForm_static {
      * This is a wrapper to pass the validation to the method gradingform_instance::validate_grading_element
      *
      * @param mixed $elementValue value of element to be validated
-     * @param array $attributes element attributes
+     * @param array $attributes   element attributes
      */
     public static function _validate($elementValue, $attributes = null): bool {
         // $attributes is filled in "addRule()" above

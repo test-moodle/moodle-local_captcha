@@ -20,16 +20,14 @@ use Symfony\Component\Finder\Comparator\NumberComparator;
  *
  * @extends \FilterIterator<string, \SplFileInfo>
  */
-class SizeRangeFilterIterator extends \FilterIterator
-{
+class SizeRangeFilterIterator extends \FilterIterator {
     private $comparators = [];
 
     /**
      * @param \Iterator<string, \SplFileInfo> $iterator
-     * @param NumberComparator[]              $comparators
+     * @param NumberComparator[] $comparators
      */
-    public function __construct(\Iterator $iterator, array $comparators)
-    {
+    public function __construct(\Iterator $iterator, array $comparators) {
         $this->comparators = $comparators;
 
         parent::__construct($iterator);
@@ -41,8 +39,7 @@ class SizeRangeFilterIterator extends \FilterIterator
      * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function accept()
-    {
+    public function accept() {
         $fileinfo = $this->current();
         if (!$fileinfo->isFile()) {
             return true;

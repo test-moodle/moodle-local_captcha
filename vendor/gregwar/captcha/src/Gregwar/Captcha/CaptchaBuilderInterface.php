@@ -5,8 +5,7 @@ namespace Gregwar\Captcha;
 /**
  * A Captcha builder
  */
-interface CaptchaBuilderInterface
-{
+interface CaptchaBuilderInterface {
     /**
      * Builds the code
      */

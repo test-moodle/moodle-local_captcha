@@ -46,6 +46,6 @@ if ($hassiteconfig) {
             'Alternative: Find mp3-Files in this path',
             '',
             '',
-        ));
+            ));
     }
 }

@@ -7,8 +7,7 @@ namespace Gregwar\Captcha;
  *
  * @author Gregwar <g.passault@gmail.com>
  */
-class PhraseBuilder implements PhraseBuilderInterface
-{
+class PhraseBuilder implements PhraseBuilderInterface {
     /**
      * @var int
      */
@@ -18,11 +17,11 @@ class PhraseBuilder implements PhraseBuilderInterface
      * @var string
      */
     public $charset;
+
     /**
      * Constructs a PhraseBuilder with given parameters
      */
-    public function __construct($length = 5, $charset = 'abcdefghijklmnpqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-    {
+    public function __construct($length = 5, $charset = 'abcdefghijklmnpqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
         $this->length = $length;
         $this->charset = $charset;
     }
@@ -30,8 +29,7 @@ class PhraseBuilder implements PhraseBuilderInterface
     /**
      * Generates  random phrase of given length with given charset
      */
-    public function build($length = null, $charset = null)
-    {
+    public function build($length = null, $charset = null) {
         if ($length !== null) {
             $this->length = $length;
         }
@@ -52,24 +50,21 @@ class PhraseBuilder implements PhraseBuilderInterface
     /**
      * "Niceize" a code
      */
-    public function niceize($str)
-    {
+    public function niceize($str) {
         return self::doNiceize($str);
     }
-    
+
     /**
      * A static helper to niceize
      */
-    public static function doNiceize($str)
-    {
+    public static function doNiceize($str) {
         return strtr(strtolower($str), '01', 'ol');
     }
 
     /**
      * A static helper to compare
      */
-    public static function comparePhrases($str1, $str2)
-    {
+    public static function comparePhrases($str1, $str2) {
         return self::doNiceize($str1) === self::doNiceize($str2);
     }
 }

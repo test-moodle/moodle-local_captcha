@@ -19,8 +19,7 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * @author Victor Berchet <victor@suumit.com>
  */
-class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
-{
+class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator {
     /**
      * @var bool
      */
@@ -39,8 +38,7 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $path, int $flags, bool $ignoreUnreadableDirs = false)
-    {
+    public function __construct(string $path, int $flags, bool $ignoreUnreadableDirs = false) {
         if ($flags & (self::CURRENT_AS_PATHNAME | self::CURRENT_AS_SELF)) {
             throw new \RuntimeException('This iterator only support returning current as fileinfo.');
         }
@@ -59,8 +57,7 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
      * @return SplFileInfo
      */
     #[\ReturnTypeWillChange]
-    public function current()
-    {
+    public function current() {
         // the logic here avoids redoing the same work in all iterations
 
         if (null === $subPathname = $this->subPath) {
@@ -75,7 +72,7 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
             $basePath .= $this->directorySeparator;
         }
 
-        return new SplFileInfo($basePath.$subPathname, $this->subPath, $subPathname);
+        return new SplFileInfo($basePath . $subPathname, $this->subPath, $subPathname);
     }
 
     /**
@@ -84,8 +81,7 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
      * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function hasChildren($allowLinks = false)
-    {
+    public function hasChildren($allowLinks = false) {
         $hasChildren = parent::hasChildren($allowLinks);
 
         if (!$hasChildren || !$this->ignoreUnreadableDirs) {
@@ -108,8 +104,7 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
      * @throws AccessDeniedException
      */
     #[\ReturnTypeWillChange]
-    public function getChildren()
-    {
+    public function getChildren() {
         try {
             $children = parent::getChildren();
 
@@ -134,8 +129,7 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
      * @return void
      */
     #[\ReturnTypeWillChange]
-    public function rewind()
-    {
+    public function rewind() {
         if (false === $this->isRewindable()) {
             return;
         }
@@ -148,8 +142,7 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
      *
      * @return bool
      */
-    public function isRewindable()
-    {
+    public function isRewindable() {
         if (null !== $this->rewindable) {
             return $this->rewindable;
         }

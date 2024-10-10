@@ -14,25 +14,23 @@ namespace Symfony\Component\Finder\Iterator;
 /**
  * MultiplePcreFilterIterator filters files using patterns (regexps, globs or strings).
  *
- * @author Fabien Potencier <fabien@symfony.com>
+ * @author             Fabien Potencier <fabien@symfony.com>
  *
  * @template-covariant TKey
  * @template-covariant TValue
  *
  * @extends \FilterIterator<TKey, TValue>
  */
-abstract class MultiplePcreFilterIterator extends \FilterIterator
-{
+abstract class MultiplePcreFilterIterator extends \FilterIterator {
     protected $matchRegexps = [];
     protected $noMatchRegexps = [];
 
     /**
-     * @param \Iterator $iterator        The Iterator to filter
-     * @param string[]  $matchPatterns   An array of patterns that need to match
-     * @param string[]  $noMatchPatterns An array of patterns that need to not match
+     * @param \Iterator $iterator       The Iterator to filter
+     * @param string[] $matchPatterns   An array of patterns that need to match
+     * @param string[] $noMatchPatterns An array of patterns that need to not match
      */
-    public function __construct(\Iterator $iterator, array $matchPatterns, array $noMatchPatterns)
-    {
+    public function __construct(\Iterator $iterator, array $matchPatterns, array $noMatchPatterns) {
         foreach ($matchPatterns as $pattern) {
             $this->matchRegexps[] = $this->toRegex($pattern);
         }
@@ -53,8 +51,7 @@ abstract class MultiplePcreFilterIterator extends \FilterIterator
      *
      * @return bool
      */
-    protected function isAccepted(string $string)
-    {
+    protected function isAccepted(string $string) {
         // should at least not match one rule to exclude
         foreach ($this->noMatchRegexps as $regex) {
             if (preg_match($regex, $string)) {
@@ -82,15 +79,14 @@ abstract class MultiplePcreFilterIterator extends \FilterIterator
      *
      * @return bool
      */
-    protected function isRegex(string $str)
-    {
+    protected function isRegex(string $str) {
         $availableModifiers = 'imsxuADU';
 
         if (\PHP_VERSION_ID >= 80200) {
             $availableModifiers .= 'n';
         }
 
-        if (preg_match('/^(.{3,}?)['.$availableModifiers.']*$/', $str, $m)) {
+        if (preg_match('/^(.{3,}?)[' . $availableModifiers . ']*$/', $str, $m)) {
             $start = substr($m[1], 0, 1);
             $end = substr($m[1], -1);
 

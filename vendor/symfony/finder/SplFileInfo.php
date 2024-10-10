@@ -16,8 +16,7 @@ namespace Symfony\Component\Finder;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class SplFileInfo extends \SplFileInfo
-{
+class SplFileInfo extends \SplFileInfo {
     private $relativePath;
     private $relativePathname;
 
@@ -26,8 +25,7 @@ class SplFileInfo extends \SplFileInfo
      * @param string $relativePath     The relative path
      * @param string $relativePathname The relative path name
      */
-    public function __construct(string $file, string $relativePath, string $relativePathname)
-    {
+    public function __construct(string $file, string $relativePath, string $relativePathname) {
         parent::__construct($file);
         $this->relativePath = $relativePath;
         $this->relativePathname = $relativePathname;
@@ -40,8 +38,7 @@ class SplFileInfo extends \SplFileInfo
      *
      * @return string
      */
-    public function getRelativePath()
-    {
+    public function getRelativePath() {
         return $this->relativePath;
     }
 
@@ -52,13 +49,11 @@ class SplFileInfo extends \SplFileInfo
      *
      * @return string
      */
-    public function getRelativePathname()
-    {
+    public function getRelativePathname() {
         return $this->relativePathname;
     }
 
-    public function getFilenameWithoutExtension(): string
-    {
+    public function getFilenameWithoutExtension(): string {
         $filename = $this->getFilename();
 
         return pathinfo($filename, \PATHINFO_FILENAME);
@@ -71,9 +66,10 @@ class SplFileInfo extends \SplFileInfo
      *
      * @throws \RuntimeException
      */
-    public function getContents()
-    {
-        set_error_handler(function ($type, $msg) use (&$error) { $error = $msg; });
+    public function getContents() {
+        set_error_handler(function ($type, $msg) use (&$error) {
+            $error = $msg;
+        });
         try {
             $content = file_get_contents($this->getPathname());
         } finally {

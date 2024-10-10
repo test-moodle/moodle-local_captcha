@@ -18,8 +18,7 @@ namespace Symfony\Component\Finder\Iterator;
  *
  * @extends \FilterIterator<string, \SplFileInfo>
  */
-class FileTypeFilterIterator extends \FilterIterator
-{
+class FileTypeFilterIterator extends \FilterIterator {
     public const ONLY_FILES = 1;
     public const ONLY_DIRECTORIES = 2;
 
@@ -27,10 +26,9 @@ class FileTypeFilterIterator extends \FilterIterator
 
     /**
      * @param \Iterator $iterator The Iterator to filter
-     * @param int       $mode     The mode (self::ONLY_FILES or self::ONLY_DIRECTORIES)
+     * @param int $mode           The mode (self::ONLY_FILES or self::ONLY_DIRECTORIES)
      */
-    public function __construct(\Iterator $iterator, int $mode)
-    {
+    public function __construct(\Iterator $iterator, int $mode) {
         $this->mode = $mode;
 
         parent::__construct($iterator);
@@ -42,8 +40,7 @@ class FileTypeFilterIterator extends \FilterIterator
      * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function accept()
-    {
+    public function accept() {
         $fileinfo = $this->current();
         if (self::ONLY_DIRECTORIES === (self::ONLY_DIRECTORIES & $this->mode) && $fileinfo->isFile()) {
             return false;

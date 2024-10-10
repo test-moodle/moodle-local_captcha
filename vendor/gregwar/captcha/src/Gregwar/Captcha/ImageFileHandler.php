@@ -10,28 +10,31 @@ use Symfony\Component\Finder\Finder;
  * @author Gregwar <g.passault@gmail.com>
  * @author Jeremy Livingston <jeremy@quizzle.com>
  */
-class ImageFileHandler
-{
+class ImageFileHandler {
     /**
      * Name of folder for captcha images
+     *
      * @var string
      */
     protected $imageFolder;
 
     /**
      * Absolute path to public web folder
+     *
      * @var string
      */
     protected $webPath;
 
     /**
      * Frequency of garbage collection in fractions of 1
+     *
      * @var int
      */
     protected $gcFreq;
 
     /**
      * Maximum age of images in minutes
+     *
      * @var int
      */
     protected $expiration;
@@ -42,12 +45,11 @@ class ImageFileHandler
      * @param $gcFreq
      * @param $expiration
      */
-    public function __construct($imageFolder, $webPath, $gcFreq, $expiration)
-    {
-        $this->imageFolder      = $imageFolder;
-        $this->webPath          = $webPath;
-        $this->gcFreq           = $gcFreq;
-        $this->expiration       = $expiration;
+    public function __construct($imageFolder, $webPath, $gcFreq, $expiration) {
+        $this->imageFolder = $imageFolder;
+        $this->webPath = $webPath;
+        $this->gcFreq = $gcFreq;
+        $this->expiration = $expiration;
     }
 
     /**
@@ -57,8 +59,7 @@ class ImageFileHandler
      *
      * @return string
      */
-    public function saveAsFile($contents)
-    {
+    public function saveAsFile($contents) {
         $this->createFolderIfMissing();
 
         $filename = md5(uniqid()) . '.jpg';
@@ -73,8 +74,7 @@ class ImageFileHandler
      *
      * @return bool
      */
-    public function collectGarbage()
-    {
+    public function collectGarbage() {
         if (!mt_rand(1, $this->gcFreq) == 1) {
             return false;
         }
@@ -96,8 +96,7 @@ class ImageFileHandler
     /**
      * Creates the folder if it doesn't exist
      */
-    protected function createFolderIfMissing()
-    {
+    protected function createFolderIfMissing() {
         if (!file_exists($this->webPath . '/' . $this->imageFolder)) {
             mkdir($this->webPath . '/' . $this->imageFolder, 0755);
         }

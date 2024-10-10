@@ -13,8 +13,7 @@ namespace Symfony\Component\Finder\Iterator;
 
 use Symfony\Component\Finder\Gitignore;
 
-final class VcsIgnoredFilterIterator extends \FilterIterator
-{
+final class VcsIgnoredFilterIterator extends \FilterIterator {
     /**
      * @var string
      */
@@ -30,15 +29,13 @@ final class VcsIgnoredFilterIterator extends \FilterIterator
      */
     private $ignoredPathsCache = [];
 
-    public function __construct(\Iterator $iterator, string $baseDir)
-    {
+    public function __construct(\Iterator $iterator, string $baseDir) {
         $this->baseDir = $this->normalizePath($baseDir);
 
         parent::__construct($iterator);
     }
 
-    public function accept(): bool
-    {
+    public function accept(): bool {
         $file = $this->current();
 
         $fileRealPath = $this->normalizePath($file->getRealPath());
@@ -46,8 +43,7 @@ final class VcsIgnoredFilterIterator extends \FilterIterator
         return !$this->isIgnored($fileRealPath);
     }
 
-    private function isIgnored(string $fileRealPath): bool
-    {
+    private function isIgnored(string $fileRealPath): bool {
         if (is_dir($fileRealPath) && !str_ends_with($fileRealPath, '/')) {
             $fileRealPath .= '/';
         }
@@ -89,8 +85,7 @@ final class VcsIgnoredFilterIterator extends \FilterIterator
     /**
      * @return list<string>
      */
-    private function parentsDirectoryDownward(string $fileRealPath): array
-    {
+    private function parentsDirectoryDownward(string $fileRealPath): array {
         $parentDirectories = [];
 
         $parentDirectory = $fileRealPath;
@@ -118,8 +113,7 @@ final class VcsIgnoredFilterIterator extends \FilterIterator
     /**
      * @return array{0: string, 1: string}|null
      */
-    private function readGitignoreFile(string $path): ?array
-    {
+    private function readGitignoreFile(string $path): ?array {
         if (\array_key_exists($path, $this->gitignoreFilesCache)) {
             return $this->gitignoreFilesCache[$path];
         }
@@ -140,8 +134,7 @@ final class VcsIgnoredFilterIterator extends \FilterIterator
         ];
     }
 
-    private function normalizePath(string $path): string
-    {
+    private function normalizePath(string $path): string {
         if ('\\' === \DIRECTORY_SEPARATOR) {
             return str_replace('\\', '/', $path);
         }

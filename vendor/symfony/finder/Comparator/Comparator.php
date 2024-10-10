@@ -14,13 +14,11 @@ namespace Symfony\Component\Finder\Comparator;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class Comparator
-{
+class Comparator {
     private $target;
     private $operator = '==';
 
-    public function __construct(string $target = null, string $operator = '==')
-    {
+    public function __construct(string $target = null, string $operator = '==') {
         if (null === $target) {
             trigger_deprecation('symfony/finder', '5.4', 'Constructing a "%s" without setting "$target" is deprecated.', __CLASS__);
         }
@@ -34,8 +32,7 @@ class Comparator
      *
      * @return string
      */
-    public function getTarget()
-    {
+    public function getTarget() {
         if (null === $this->target) {
             trigger_deprecation('symfony/finder', '5.4', 'Calling "%s" without initializing the target is deprecated.', __METHOD__);
         }
@@ -46,8 +43,7 @@ class Comparator
     /**
      * @deprecated set the target via the constructor instead
      */
-    public function setTarget(string $target)
-    {
+    public function setTarget(string $target) {
         trigger_deprecation('symfony/finder', '5.4', '"%s" is deprecated. Set the target via the constructor instead.', __METHOD__);
 
         $this->target = $target;
@@ -58,8 +54,7 @@ class Comparator
      *
      * @return string
      */
-    public function getOperator()
-    {
+    public function getOperator() {
         return $this->operator;
     }
 
@@ -70,8 +65,7 @@ class Comparator
      *
      * @deprecated set the operator via the constructor instead
      */
-    public function setOperator(string $operator)
-    {
+    public function setOperator(string $operator) {
         trigger_deprecation('symfony/finder', '5.4', '"%s" is deprecated. Set the operator via the constructor instead.', __METHOD__);
 
         $this->doSetOperator('' === $operator ? '==' : $operator);
@@ -84,8 +78,7 @@ class Comparator
      *
      * @return bool
      */
-    public function test($test)
-    {
+    public function test($test) {
         if (null === $this->target) {
             trigger_deprecation('symfony/finder', '5.4', 'Calling "%s" without initializing the target is deprecated.', __METHOD__);
         }
@@ -106,8 +99,7 @@ class Comparator
         return $test == $this->target;
     }
 
-    private function doSetOperator(string $operator): void
-    {
+    private function doSetOperator(string $operator): void {
         if (!\in_array($operator, ['>', '<', '>=', '<=', '==', '!='])) {
             throw new \InvalidArgumentException(sprintf('Invalid operator "%s".', $operator));
         }

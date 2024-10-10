@@ -20,16 +20,14 @@ use Symfony\Component\Finder\Comparator\DateComparator;
  *
  * @extends \FilterIterator<string, \SplFileInfo>
  */
-class DateRangeFilterIterator extends \FilterIterator
-{
+class DateRangeFilterIterator extends \FilterIterator {
     private $comparators = [];
 
     /**
      * @param \Iterator<string, \SplFileInfo> $iterator
-     * @param DateComparator[]                $comparators
+     * @param DateComparator[] $comparators
      */
-    public function __construct(\Iterator $iterator, array $comparators)
-    {
+    public function __construct(\Iterator $iterator, array $comparators) {
         $this->comparators = $comparators;
 
         parent::__construct($iterator);
@@ -41,8 +39,7 @@ class DateRangeFilterIterator extends \FilterIterator
      * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function accept()
-    {
+    public function accept() {
         $fileinfo = $this->current();
 
         if (!file_exists($fileinfo->getPathname())) {

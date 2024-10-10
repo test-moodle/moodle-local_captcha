@@ -17,25 +17,21 @@ namespace Symfony\Component\Finder;
  * @author Michael Voříšek <vorismi3@fel.cvut.cz>
  * @author Ahmed Abdou <mail@ahmd.io>
  */
-class Gitignore
-{
+class Gitignore {
     /**
      * Returns a regexp which is the equivalent of the gitignore pattern.
      *
      * Format specification: https://git-scm.com/docs/gitignore#_pattern_format
      */
-    public static function toRegex(string $gitignoreFileContent): string
-    {
+    public static function toRegex(string $gitignoreFileContent): string {
         return self::buildRegex($gitignoreFileContent, false);
     }
 
-    public static function toRegexMatchingNegatedPatterns(string $gitignoreFileContent): string
-    {
+    public static function toRegexMatchingNegatedPatterns(string $gitignoreFileContent): string {
         return self::buildRegex($gitignoreFileContent, true);
     }
 
-    private static function buildRegex(string $gitignoreFileContent, bool $inverted): string
-    {
+    private static function buildRegex(string $gitignoreFileContent, bool $inverted): string {
         $gitignoreFileContent = preg_replace('~(?<!\\\\)#[^\n\r]*~', '', $gitignoreFileContent);
         $gitignoreLines = preg_split('~\r\n?|\n~', $gitignoreFileContent);
 
@@ -52,18 +48,17 @@ class Gitignore
 
             if ('' !== $line) {
                 if ($isNegative xor $inverted) {
-                    $res = '(?!'.self::lineToRegex($line).'$)'.$res;
+                    $res = '(?!' . self::lineToRegex($line) . '$)' . $res;
                 } else {
-                    $res = '(?:'.$res.'|'.self::lineToRegex($line).')';
+                    $res = '(?:' . $res . '|' . self::lineToRegex($line) . ')';
                 }
             }
         }
 
-        return '~^(?:'.$res.')~s';
+        return '~^(?:' . $res . ')~s';
     }
 
-    private static function lineToRegex(string $gitignoreLine): string
-    {
+    private static function lineToRegex(string $gitignoreLine): string {
         if ('' === $gitignoreLine) {
             return '$f'; // always false
         }
@@ -80,14 +75,14 @@ class Gitignore
 
         $regex = preg_quote(str_replace('\\', '', $gitignoreLine), '~');
         $regex = preg_replace_callback('~\\\\\[((?:\\\\!)?)([^\[\]]*)\\\\\]~', function (array $matches): string {
-            return '['.('' !== $matches[1] ? '^' : '').str_replace('\\-', '-', $matches[2]).']';
+            return '[' . ('' !== $matches[1] ? '^' : '') . str_replace('\\-', '-', $matches[2]) . ']';
         }, $regex);
         $regex = preg_replace('~(?:(?:\\\\\*){2,}(/?))+~', '(?:(?:(?!//).(?<!//))+$1)?', $regex);
         $regex = preg_replace('~\\\\\*~', '[^/]*', $regex);
         $regex = preg_replace('~\\\\\?~', '[^/]', $regex);
 
         return ($isAbsolute ? '' : '(?:[^/]+/)*')
-            .$regex
-            .(!str_ends_with($gitignoreLine, '/') ? '(?:$|/)' : '');
+            . $regex
+            . (!str_ends_with($gitignoreLine, '/') ? '(?:$|/)' : '');
     }
 }

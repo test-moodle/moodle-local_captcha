@@ -20,19 +20,17 @@ namespace Symfony\Component\Finder\Iterator;
  *
  * @implements \RecursiveIterator<string, \SplFileInfo>
  */
-class ExcludeDirectoryFilterIterator extends \FilterIterator implements \RecursiveIterator
-{
+class ExcludeDirectoryFilterIterator extends \FilterIterator implements \RecursiveIterator {
     private $iterator;
     private $isRecursive;
     private $excludedDirs = [];
     private $excludedPattern;
 
     /**
-     * @param \Iterator $iterator    The Iterator to filter
-     * @param string[]  $directories An array of directories to exclude
+     * @param \Iterator $iterator   The Iterator to filter
+     * @param string[] $directories An array of directories to exclude
      */
-    public function __construct(\Iterator $iterator, array $directories)
-    {
+    public function __construct(\Iterator $iterator, array $directories) {
         $this->iterator = $iterator;
         $this->isRecursive = $iterator instanceof \RecursiveIterator;
         $patterns = [];
@@ -45,7 +43,7 @@ class ExcludeDirectoryFilterIterator extends \FilterIterator implements \Recursi
             }
         }
         if ($patterns) {
-            $this->excludedPattern = '#(?:^|/)(?:'.implode('|', $patterns).')(?:/|$)#';
+            $this->excludedPattern = '#(?:^|/)(?:' . implode('|', $patterns) . ')(?:/|$)#';
         }
 
         parent::__construct($iterator);
@@ -57,8 +55,7 @@ class ExcludeDirectoryFilterIterator extends \FilterIterator implements \Recursi
      * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function accept()
-    {
+    public function accept() {
         if ($this->isRecursive && isset($this->excludedDirs[$this->getFilename()]) && $this->isDir()) {
             return false;
         }
@@ -77,8 +74,7 @@ class ExcludeDirectoryFilterIterator extends \FilterIterator implements \Recursi
      * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function hasChildren()
-    {
+    public function hasChildren() {
         return $this->isRecursive && $this->iterator->hasChildren();
     }
 
@@ -86,8 +82,7 @@ class ExcludeDirectoryFilterIterator extends \FilterIterator implements \Recursi
      * @return self
      */
     #[\ReturnTypeWillChange]
-    public function getChildren()
-    {
+    public function getChildren() {
         $children = new self($this->iterator->getChildren(), []);
         $children->excludedDirs = $this->excludedDirs;
         $children->excludedPattern = $this->excludedPattern;

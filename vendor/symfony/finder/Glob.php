@@ -28,20 +28,18 @@ namespace Symfony\Component\Finder;
  *
  * Based on the Perl Text::Glob module.
  *
- * @author Fabien Potencier <fabien@symfony.com> PHP port
+ * @author     Fabien Potencier <fabien@symfony.com> PHP port
  * @author     Richard Clamp <richardc@unixbeard.net> Perl version
  * @copyright  2004-2005 Fabien Potencier <fabien@symfony.com>
  * @copyright  2002 Richard Clamp <richardc@unixbeard.net>
  */
-class Glob
-{
+class Glob {
     /**
      * Returns a regexp which is the equivalent of the glob pattern.
      *
      * @return string
      */
-    public static function toRegex(string $glob, bool $strictLeadingDot = true, bool $strictWildcardSlash = true, string $delimiter = '#')
-    {
+    public static function toRegex(string $glob, bool $strictLeadingDot = true, bool $strictWildcardSlash = true, string $delimiter = '#') {
         $firstByte = true;
         $escaping = false;
         $inCurlies = 0;
@@ -55,17 +53,17 @@ class Glob
 
             $firstByte = '/' === $car;
 
-            if ($firstByte && $strictWildcardSlash && isset($glob[$i + 2]) && '**' === $glob[$i + 1].$glob[$i + 2] && (!isset($glob[$i + 3]) || '/' === $glob[$i + 3])) {
+            if ($firstByte && $strictWildcardSlash && isset($glob[$i + 2]) && '**' === $glob[$i + 1] . $glob[$i + 2] && (!isset($glob[$i + 3]) || '/' === $glob[$i + 3])) {
                 $car = '[^/]++/';
                 if (!isset($glob[$i + 3])) {
                     $car .= '?';
                 }
 
                 if ($strictLeadingDot) {
-                    $car = '(?=[^\.])'.$car;
+                    $car = '(?=[^\.])' . $car;
                 }
 
-                $car = '/(?:'.$car.')*';
+                $car = '/(?:' . $car . ')*';
                 $i += 2 + isset($glob[$i + 3]);
 
                 if ('/' === $delimiter) {
@@ -106,6 +104,6 @@ class Glob
             $escaping = false;
         }
 
-        return $delimiter.'^'.$regex.'$'.$delimiter;
+        return $delimiter . '^' . $regex . '$' . $delimiter;
     }
 }
